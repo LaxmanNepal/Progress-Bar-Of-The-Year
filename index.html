@@ -1,151 +1,41 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#050607">
-  <meta name="description" content="Watch the current year, month, day and time progress from zero to the present moment.">
-  <meta property="og:title" content="Progress Bar of the Year">
-  <meta property="og:description" content="A live animated view of how far the year, month and day have progressed.">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <title>Progress Bar of the Year</title>
-  <style>
-    :root{--bg:#050607;--panel:#0c0f11;--text:#f2f4f6;--muted:#8f969d;--track:#393b3d;--accent:#00c853;--accent2:#00ad49}
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:var(--bg)}
-    body{color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;overflow-x:hidden}
-    main{width:min(920px,calc(100% - 40px));margin:0 auto;padding:clamp(34px,8vh,88px) 0 42px}
-    .hero{margin-bottom:42px}
-    .headline{margin:0;font-size:clamp(2.15rem,7vw,5.7rem);line-height:1.04;letter-spacing:.02em;font-weight:800}
-    .subline{margin:14px 0 0;color:var(--muted);font-size:clamp(1rem,2.2vw,1.5rem);letter-spacing:.06em;font-variant-numeric:tabular-nums}
-    .section{margin:28px 0 0}
-    .label{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:0 0 10px;color:var(--muted);font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
-    .value{color:var(--text);font-size:clamp(1.2rem,3vw,2rem);letter-spacing:0;text-transform:none;font-variant-numeric:tabular-nums}
-    .bar{height:clamp(52px,9vw,88px);background:var(--track);border-radius:22px;overflow:hidden;position:relative;box-shadow:inset 0 1px rgba(255,255,255,.07)}
-    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:inherit;will-change:width;box-shadow:0 0 28px rgba(0,200,83,.28)}
-    .fill::after{content:"";display:block;width:35%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.22),transparent);transform:translateX(-150%);animation:shine 3.5s ease-in-out infinite 2.2s}
-    .time-card{margin-top:32px;padding:24px;border:1px solid rgba(255,255,255,.08);border-radius:24px;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.01))}
-    .time-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
-    .unit{min-width:0;padding:18px 12px;text-align:center;border-radius:18px;background:rgba(255,255,255,.035)}
-    .number{display:block;font-size:clamp(1.8rem,6vw,4rem);font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
-    .unit small{display:block;color:var(--muted);margin-top:9px;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
-    .footer{margin-top:34px;color:var(--muted);font-size:.82rem;text-align:center}
-    @keyframes shine{0%,45%{transform:translateX(-150%)}70%,100%{transform:translateX(350%)}}
-    @media(max-width:560px){main{width:calc(100% - 32px);padding-top:54px}.hero{margin-bottom:34px}.section{margin-top:23px}.bar{border-radius:18px}.time-card{padding:18px;border-radius:20px}.time-grid{gap:8px}.unit{padding:15px 6px;border-radius:14px}}
-    @media(prefers-reduced-motion:reduce){.fill::after{animation:none}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050607">
+<meta name="description" content="Watch the current year, month, day and time progress from zero to the present moment.">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Progress Bar of the Year</title>
+<style>
+:root{--bg:#050607;--text:#f2f4f6;--muted:#8f969d;--track:#393b3d;--accent:#00c853;--accent2:#00ad49}*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg)}body{color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;overflow-x:hidden}main{width:min(920px,calc(100% - 40px));margin:auto;padding:clamp(34px,8vh,88px) 0 42px}.hero{margin-bottom:42px}.headline{margin:0;font-size:clamp(2.15rem,7vw,5.7rem);line-height:1.04;letter-spacing:.02em;font-weight:800}.subline{margin:14px 0 0;color:var(--muted);font-size:clamp(1rem,2.2vw,1.5rem);letter-spacing:.06em;font-variant-numeric:tabular-nums}.section{margin:28px 0 0}.label{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:0 0 10px;color:var(--muted);font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.value{color:var(--text);font-size:clamp(1.2rem,3vw,2rem);font-variant-numeric:tabular-nums}.bar{height:clamp(52px,9vw,88px);background:var(--track);border-radius:22px;overflow:hidden;position:relative;box-shadow:inset 0 1px rgba(255,255,255,.07)}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:inherit;will-change:width;box-shadow:0 0 28px rgba(0,200,83,.28)}.fill:after{content:"";display:block;width:35%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.22),transparent);transform:translateX(-150%);animation:shine 3.5s ease-in-out infinite 2.2s}.time-card{margin-top:32px;padding:24px;border:1px solid rgba(255,255,255,.08);border-radius:24px;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.01))}.time-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.unit{padding:18px 12px;text-align:center;border-radius:18px;background:rgba(255,255,255,.035)}.number{display:block;font-size:clamp(1.8rem,6vw,4rem);font-weight:800;line-height:1;font-variant-numeric:tabular-nums}.unit small{display:block;color:var(--muted);margin-top:9px;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}.footer{margin-top:34px;color:var(--muted);font-size:.82rem;text-align:center}.sound{position:fixed;top:18px;right:18px;z-index:20;width:46px;height:46px;border:1px solid rgba(255,255,255,.12);border-radius:50%;background:rgba(20,23,25,.86);backdrop-filter:blur(14px);color:white;font-size:1.15rem;cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,.28)}.sound.on{background:rgba(0,200,83,.2);border-color:rgba(0,200,83,.45)}.hint{position:fixed;top:72px;right:18px;z-index:19;padding:8px 12px;border-radius:10px;background:rgba(20,23,25,.94);color:var(--muted);font-size:.7rem;opacity:0;transform:translateY(-4px);pointer-events:none;transition:.25s}.hint.show{opacity:1;transform:none}@keyframes shine{0%,45%{transform:translateX(-150%)}70%,100%{transform:translateX(350%)}}@media(max-width:560px){main{width:calc(100% - 32px);padding-top:54px}.hero{margin-bottom:34px}.section{margin-top:23px}.bar{border-radius:18px}.time-card{padding:18px;border-radius:20px}.time-grid{gap:8px}.unit{padding:15px 6px;border-radius:14px}}@media(prefers-reduced-motion:reduce){.fill:after{animation:none}}
+</style>
 </head>
 <body>
-  <main>
-    <header class="hero">
-      <h1 class="headline"><span id="yearPercent">0</span>% of <span id="yearNumber">0</span> has passed</h1>
-      <p class="subline" id="dateText">Loading date…</p>
-    </header>
-
-    <section class="section">
-      <div class="label"><span>Year progress</span><span class="value"><span id="yearValue">0.0</span>%</span></div>
-      <div class="bar" role="progressbar" aria-label="Year progress" aria-valuemin="0" aria-valuemax="100"><div class="fill" id="yearBar"></div></div>
-    </section>
-
-    <section class="section">
-      <div class="label"><span>Month progress</span><span class="value"><span id="monthValue">0.0</span>%</span></div>
-      <div class="bar" role="progressbar" aria-label="Month progress" aria-valuemin="0" aria-valuemax="100"><div class="fill" id="monthBar"></div></div>
-    </section>
-
-    <section class="section">
-      <div class="label"><span>Day progress</span><span class="value"><span id="dayValue">0.0</span>%</span></div>
-      <div class="bar" role="progressbar" aria-label="Day progress" aria-valuemin="0" aria-valuemax="100"><div class="fill" id="dayBar"></div></div>
-    </section>
-
-    <section class="time-card" aria-label="Current time">
-      <div class="label"><span>Time now</span><span class="value" id="clockText">00:00:00</span></div>
-      <div class="time-grid">
-        <div class="unit"><span class="number" id="hour">0</span><small>Hours</small></div>
-        <div class="unit"><span class="number" id="minute">0</span><small>Minutes</small></div>
-        <div class="unit"><span class="number" id="second">0</span><small>Seconds</small></div>
-      </div>
-    </section>
-
-    <p class="footer">Every value begins at zero when the page opens, then animates to the real current value.</p>
-  </main>
-
+<button class="sound" id="sound" type="button" aria-label="Enable animation sound" aria-pressed="false">🔇</button><div class="hint" id="hint">Tap 🔇 to enable animation sound</div>
+<main>
+<header class="hero"><h1 class="headline"><span id="yearPercent">0</span>% of <span id="yearNumber">0</span> has passed</h1><p class="subline" id="dateText">Loading date…</p></header>
+<section class="section"><div class="label"><span>Year progress</span><span class="value"><span id="yearValue">0.0</span>%</span></div><div class="bar" role="progressbar" aria-label="Year progress" aria-valuemin="0" aria-valuemax="100"><div class="fill" id="yearBar"></div></div></section>
+<section class="section"><div class="label"><span>Month progress</span><span class="value"><span id="monthValue">0.0</span>%</span></div><div class="bar" role="progressbar" aria-label="Month progress" aria-valuemin="0" aria-valuemax="100"><div class="fill" id="monthBar"></div></div></section>
+<section class="section"><div class="label"><span>Day progress</span><span class="value"><span id="dayValue">0.0</span>%</span></div><div class="bar" role="progressbar" aria-label="Day progress" aria-valuemin="0" aria-valuemax="100"><div class="fill" id="dayBar"></div></div></section>
+<section class="time-card" aria-label="Current time"><div class="label"><span>Time now</span><span class="value" id="clockText">00:00:00</span></div><div class="time-grid"><div class="unit"><span class="number" id="hour">0</span><small>Hours</small></div><div class="unit"><span class="number" id="minute">0</span><small>Minutes</small></div><div class="unit"><span class="number" id="second">0</span><small>Seconds</small></div></div></section>
+<p class="footer">Every value begins at zero when the page opens, then animates to the real current value.</p>
+</main>
 <script>
-(() => {
-  const $ = id => document.getElementById(id);
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let targets;
-
-  function metrics(now){
-    const year=now.getFullYear(), month=now.getMonth();
-    const yearStart=new Date(year,0,1), nextYear=new Date(year+1,0,1);
-    const monthStart=new Date(year,month,1), nextMonth=new Date(year,month+1,1);
-    const dayStart=new Date(year,month,now.getDate()), nextDay=new Date(year,month,now.getDate()+1);
-    return {
-      year, monthName:new Intl.DateTimeFormat('en-US',{month:'long'}).format(now),
-      date:new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric'}).format(now),
-      yearPct:(now-yearStart)/(nextYear-yearStart)*100,
-      monthPct:(now-monthStart)/(nextMonth-monthStart)*100,
-      dayPct:(now-dayStart)/(nextDay-dayStart)*100,
-      hour:now.getHours(), minute:now.getMinutes(), second:now.getSeconds()
-    };
-  }
-
-  function animateNumber(el, from, to, duration, format=v=>Math.round(v)){
-    const start=performance.now();
-    function frame(t){
-      const p=Math.min(1,(t-start)/duration);
-      const eased=1-Math.pow(1-p,4);
-      el.textContent=format(from+(to-from)*eased);
-      if(p<1) requestAnimationFrame(frame); else el.textContent=format(to);
-    }
-    if(reduce){el.textContent=format(to)} else requestAnimationFrame(frame);
-  }
-
-  function setBar(id,value){
-    const bar=$(id); bar.style.width=Math.max(0,Math.min(100,value))+'%';
-    bar.parentElement.setAttribute('aria-valuenow',value.toFixed(2));
-  }
-
-  function initialAnimation(){
-    const m=metrics(new Date()); targets=m;
-    $('dateText').textContent=m.date;
-    const duration=reduce?0:2200;
-    animateNumber($('yearPercent'),0,Math.floor(m.yearPct),duration);
-    animateNumber($('yearNumber'),0,m.year,duration);
-    animateNumber($('yearValue'),0,m.yearPct,duration,v=>v.toFixed(1));
-    animateNumber($('monthValue'),0,m.monthPct,duration,v=>v.toFixed(1));
-    animateNumber($('dayValue'),0,m.dayPct,duration,v=>v.toFixed(1));
-    animateNumber($('hour'),0,m.hour,duration);
-    animateNumber($('minute'),0,m.minute,duration);
-    animateNumber($('second'),0,m.second,duration);
-    $('clockText').textContent='00:00:00';
-
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      setBar('yearBar',m.yearPct);setBar('monthBar',m.monthPct);setBar('dayBar',m.dayPct);
-    }));
-
-    setTimeout(()=>live(),duration+40);
-  }
-
-  function live(){
-    const m=metrics(new Date()); targets=m;
-    $('yearPercent').textContent=Math.floor(m.yearPct);
-    $('yearNumber').textContent=m.year;
-    $('yearValue').textContent=m.yearPct.toFixed(1);
-    $('monthValue').textContent=m.monthPct.toFixed(1);
-    $('dayValue').textContent=m.dayPct.toFixed(1);
-    $('dateText').textContent=m.date;
-    $('hour').textContent=m.hour;
-    $('minute').textContent=m.minute;
-    $('second').textContent=m.second;
-    $('clockText').textContent=[m.hour,m.minute,m.second].map(v=>String(v).padStart(2,'0')).join(':');
-    setBar('yearBar',m.yearPct);setBar('monthBar',m.monthPct);setBar('dayBar',m.dayPct);
-    setTimeout(live,1000-(Date.now()%1000)+8);
-  }
-  initialAnimation();
+(()=>{
+const $=id=>document.getElementById(id), reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let audio=null,gain=null,soundOn=false;
+function audioInit(){const C=window.AudioContext||window.webkitAudioContext;if(!C)return false;if(!audio)audio=new C();if(audio.state==='suspended')audio.resume();if(!gain){gain=audio.createGain();gain.gain.value=.045;gain.connect(audio.destination)}return true}
+function tone(freq,at,dur=.1){if(!soundOn||!audio||!gain)return;const o=audio.createOscillator(),g=audio.createGain();o.type='sine';o.frequency.setValueAtTime(freq,at);g.gain.setValueAtTime(.0001,at);g.gain.exponentialRampToValueAtTime(.5,at+.012);g.gain.exponentialRampToValueAtTime(.0001,at+dur);o.connect(g);g.connect(gain);o.start(at);o.stop(at+dur+.02)}
+function playAnimationSound(){if(!soundOn||!audioInit())return;const t=audio.currentTime+.04;[[261.63,0,.12],[329.63,.18,.12],[392,.36,.12],[523.25,.56,.15],[659.25,.78,.18]].forEach(x=>tone(x[0],t+x[1],x[2]))}
+$('sound').onclick=()=>{soundOn=!soundOn;if(soundOn){if(!audioInit()){soundOn=false;return}$('sound').textContent='🔊';$('sound').classList.add('on');$('sound').setAttribute('aria-pressed','true');$('sound').setAttribute('aria-label','Disable animation sound');playAnimationSound()}else{$('sound').textContent='🔇';$('sound').classList.remove('on');$('sound').setAttribute('aria-pressed','false');$('sound').setAttribute('aria-label','Enable animation sound')}};
+if(!reduce)setTimeout(()=>{$('hint').classList.add('show');setTimeout(()=>$('hint').classList.remove('show'),3200)},900);
+function metrics(n){const y=n.getFullYear(),m=n.getMonth(),ys=new Date(y,0,1),ny=new Date(y+1,0,1),ms=new Date(y,m,1),nm=new Date(y,m+1,1),ds=new Date(y,m,n.getDate()),nd=new Date(y,m,n.getDate()+1);return{year:y,date:new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric'}).format(n),yp:(n-ys)/(ny-ys)*100,mp:(n-ms)/(nm-ms)*100,dp:(n-ds)/(nd-ds)*100,h:n.getHours(),min:n.getMinutes(),s:n.getSeconds()}}
+function num(el,a,b,d,f=v=>Math.round(v)){if(reduce){el.textContent=f(b);return}const st=performance.now();function go(t){const p=Math.min(1,(t-st)/d),e=1-Math.pow(1-p,4);el.textContent=f(a+(b-a)*e);if(p<1)requestAnimationFrame(go);else el.textContent=f(b)}requestAnimationFrame(go)}
+function bar(id,v){const e=$(id);e.style.width=Math.max(0,Math.min(100,v))+'%';e.parentElement.setAttribute('aria-valuenow',v.toFixed(2))}
+function initial(){const m=metrics(new Date()),d=reduce?0:2200;$('dateText').textContent=m.date;num($('yearPercent'),0,Math.floor(m.yp),d);num($('yearNumber'),0,m.year,d);num($('yearValue'),0,m.yp,d,v=>v.toFixed(1));num($('monthValue'),0,m.mp,d,v=>v.toFixed(1));num($('dayValue'),0,m.dp,d,v=>v.toFixed(1));num($('hour'),0,m.h,d);num($('minute'),0,m.min,d);num($('second'),0,m.s,d);$('clockText').textContent='00:00:00';requestAnimationFrame(()=>requestAnimationFrame(()=>{bar('yearBar',m.yp);bar('monthBar',m.mp);bar('dayBar',m.dp)}));if(soundOn)playAnimationSound();setTimeout(live,d+40)}
+function live(){const m=metrics(new Date());$('yearPercent').textContent=Math.floor(m.yp);$('yearNumber').textContent=m.year;$('yearValue').textContent=m.yp.toFixed(1);$('monthValue').textContent=m.mp.toFixed(1);$('dayValue').textContent=m.dp.toFixed(1);$('dateText').textContent=m.date;$('hour').textContent=m.h;$('minute').textContent=m.min;$('second').textContent=m.s;$('clockText').textContent=[m.h,m.min,m.s].map(v=>String(v).padStart(2,'0')).join(':');bar('yearBar',m.yp);bar('monthBar',m.mp);bar('dayBar',m.dp);setTimeout(live,1000-Date.now()%1000+8)}
+initial();
 })();
 </script>
 </body>
