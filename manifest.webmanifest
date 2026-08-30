@@ -1,0 +1,9 @@
+{
+  "name": "Progress Bar of the Year",
+  "short_name": "Year Progress",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#050607",
+  "theme_color": "#050607",
+  "description": "Live year, month, day and time progress."
+}
