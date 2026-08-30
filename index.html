@@ -1,37 +1,22 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#050607">
-<meta name="description" content="Watch the current year progress from zero to the present moment.">
-<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="favicon.svg" type="image/svg+xml">
-<title>Progress Bar of the Year</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#050607"><meta name="description" content="Watch the current year progress from zero to the present moment."><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="favicon.svg" type="image/svg+xml"><title>Progress Bar of the Year</title>
 <style>
 :root{--bg:#050607;--text:#f2f4f6;--muted:#8f969d;--track:#393b3d;--accent:#00c853;--accent2:#00ad49}*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg)}body{color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;overflow-x:hidden}main{width:min(920px,calc(100% - 40px));margin:auto;padding:clamp(34px,8vh,88px) 0 42px;text-align:center}.hero{margin-bottom:42px}.headline{margin:0;font-size:clamp(2.15rem,7vw,5.7rem);line-height:1.04;letter-spacing:.02em;font-weight:800}.subline{margin:14px 0 0;color:var(--muted);font-size:clamp(1rem,2.2vw,1.5rem);letter-spacing:.06em;font-variant-numeric:tabular-nums}.progress-section{margin-top:28px}.label{display:flex;justify-content:center;align-items:baseline;gap:12px;margin:0 0 10px;color:var(--muted);font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.value{color:var(--text);font-size:clamp(1.2rem,3vw,2rem);font-variant-numeric:tabular-nums}.bar{height:clamp(60px,10vw,92px);background:var(--track);border-radius:24px;overflow:hidden;position:relative;box-shadow:inset 0 1px rgba(255,255,255,.07);text-align:left}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:inherit;will-change:width;box-shadow:0 0 28px rgba(0,200,83,.28)}.fill:after{content:"";display:block;width:35%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.22),transparent);transform:translateX(-150%);animation:shine 3.5s ease-in-out infinite 1s}@keyframes shine{0%,45%{transform:translateX(-150%)}70%,100%{transform:translateX(350%)}}.sound{position:fixed;top:18px;right:18px;z-index:20;width:46px;height:46px;border:1px solid rgba(255,255,255,.12);border-radius:50%;background:rgba(20,23,25,.86);backdrop-filter:blur(14px);color:white;font-size:1.15rem;cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,.28)}.sound.on{background:rgba(0,200,83,.2);border-color:rgba(0,200,83,.45)}.hint{position:fixed;top:72px;right:18px;z-index:19;padding:8px 12px;border-radius:10px;background:rgba(20,23,25,.94);color:var(--muted);font-size:.7rem;opacity:0;transform:translateY(-4px);pointer-events:none;transition:.25s}.hint.show{opacity:1;transform:none}@media(max-width:560px){main{width:calc(100% - 32px);padding-top:54px}.hero{margin-bottom:34px}.progress-section{margin-top:23px}.bar{border-radius:18px}}@media(prefers-reduced-motion:reduce){.fill:after{animation:none}}
 </style>
-</head>
-<body>
-<button class="sound" id="sound" type="button" aria-label="Enable animation sound" aria-pressed="false">🔇</button><div class="hint" id="hint">Tap 🔇 to enable animation sound</div>
-<main>
-<header class="hero"><h1 class="headline"><span id="yearPercent">0</span>% of <span id="yearNumber">0</span> has passed</h1><p class="subline" id="dateText">Loading date…</p></header>
-<section class="progress-section"><div class="label"><span>Year progress</span><span class="value"><span id="progressValue">0.0</span>%</span></div><div class="bar" role="progressbar" aria-label="Year progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill" id="progressBar"></div></div></section>
-</main>
+</head><body>
+<button class="sound on" id="sound" type="button" aria-label="Disable animation sound" aria-pressed="true">🔊</button><div class="hint" id="hint">Sound is on</div>
+<main><header class="hero"><h1 class="headline"><span id="yearPercent">0</span>% of <span id="yearNumber">0</span> has passed</h1><p class="subline" id="dateText">Loading date…</p></header><section class="progress-section"><div class="label"><span>Year progress</span><span class="value"><span id="progressValue">0.0</span>%</span></div><div class="bar" role="progressbar" aria-label="Year progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill" id="progressBar"></div></div></section></main>
 <script>
-(()=>{
-const $=id=>document.getElementById(id),reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;let audio=null,gain=null,soundOn=false;
-function audioInit(){const C=window.AudioContext||window.webkitAudioContext;if(!C)return false;if(!audio)audio=new C();if(audio.state==='suspended')audio.resume();if(!gain){gain=audio.createGain();gain.gain.value=.045;gain.connect(audio.destination)}return true}
+(()=>{const $=id=>document.getElementById(id),reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;let audio=null,gain=null,soundOn=true;
+function audioInit(){const C=window.AudioContext||window.webkitAudioContext;if(!C)return false;if(!audio)audio=new C();if(audio.state==='suspended')audio.resume();if(!gain){gain=audio.createGain();gain.gain.value=1;gain.connect(audio.destination)}return true}
 function tone(freq,at,dur=.1){if(!soundOn||!audio||!gain)return;const o=audio.createOscillator(),g=audio.createGain();o.type='sine';o.frequency.setValueAtTime(freq,at);g.gain.setValueAtTime(.0001,at);g.gain.exponentialRampToValueAtTime(.5,at+.012);g.gain.exponentialRampToValueAtTime(.0001,at+dur);o.connect(g);g.connect(gain);o.start(at);o.stop(at+dur+.02)}
 function playAnimationSound(){if(!soundOn||!audioInit())return;const t=audio.currentTime+.04;[[261.63,0,.12],[329.63,.16,.12],[392,.32,.12],[523.25,.48,.15],[659.25,.66,.18]].forEach(x=>tone(x[0],t+x[1],x[2]))}
 $('sound').onclick=()=>{soundOn=!soundOn;if(soundOn){if(!audioInit()){soundOn=false;return}$('sound').textContent='🔊';$('sound').classList.add('on');$('sound').setAttribute('aria-pressed','true');$('sound').setAttribute('aria-label','Disable animation sound');playAnimationSound()}else{$('sound').textContent='🔇';$('sound').classList.remove('on');$('sound').setAttribute('aria-pressed','false');$('sound').setAttribute('aria-label','Enable animation sound')}};
-if(!reduce)setTimeout(()=>{$('hint').classList.add('show');setTimeout(()=>$('hint').classList.remove('show'),3000)},700);
 function metrics(n){const y=n.getFullYear(),ys=new Date(y,0,1),ny=new Date(y+1,0,1);return{year:y,date:new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric'}).format(n),yp:(n-ys)/(ny-ys)*100}}
 function animateNumber(el,a,b,d,f=v=>Math.round(v)){if(reduce){el.textContent=f(b);return}const st=performance.now();function go(t){const p=Math.min(1,(t-st)/d),e=1-Math.pow(1-p,4);el.textContent=f(a+(b-a)*e);if(p<1)requestAnimationFrame(go);else el.textContent=f(b)}requestAnimationFrame(go)}
 function animateBar(v,d){const bar=$('progressBar'),start=performance.now();if(reduce){bar.style.width=v+'%';$('progressValue').textContent=v.toFixed(1);return}function go(t){const p=Math.min(1,(t-start)/d),e=1-Math.pow(1-p,4),current=v*e;bar.style.width=current+'%';$('progressValue').textContent=current.toFixed(1);bar.parentElement.setAttribute('aria-valuenow',current.toFixed(2));if(p<1)requestAnimationFrame(go);else{bar.style.width=v+'%';$('progressValue').textContent=v.toFixed(1);bar.parentElement.setAttribute('aria-valuenow',v.toFixed(2))}}requestAnimationFrame(go)}
 function initial(){const m=metrics(new Date()),d=20000;$('dateText').textContent=m.date;animateNumber($('yearPercent'),0,Math.floor(m.yp),d);animateNumber($('yearNumber'),0,m.year,d);animateBar(m.yp,d);if(soundOn)playAnimationSound();setTimeout(live,d+40)}
-function live(){const m=metrics(new Date());$('yearPercent').textContent=Math.floor(m.yp);$('yearNumber').textContent=m.year;$('progressValue').textContent=m.yp.toFixed(1);$('dateText').textContent=m.date;$('progressBar').style.width=m.yp+'%';$('progressBar').parentElement.setAttribute('aria-valuenow',m.yp.toFixed(2));setTimeout(live,1000-Date.now()%1000+8)}
-initial();
-})();
-</script>
-</body>
-</html>
+function live(){const m=metrics(new Date());$('yearPercent').textContent=Math.floor(m.yp);$('yearNumber').textContent=m.year;$('progressValue').textContent=m.yp.toFixed(1);$('dateText').textContent=m.date;$('progressBar').style.width=m.yp+'%';$('progressBar').parentElement.setAttribute('aria-valuenow',m.yp.toFixed(2));setTimeout(live,1000-Date.now()%1000+8)}initial();})();
+</script></body></html>
