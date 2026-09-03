@@ -1,9 +1,12 @@
 {
-  "name": "Progress Bar of the Year",
+  "name": "Progress Bar Of the Year",
   "short_name": "Year Progress",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#050607",
-  "theme_color": "#050607",
-  "description": "Live year, month, day and time progress."
+  "background_color": "#050806",
+  "theme_color": "#070b0a",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "description": "A live year progress tracker by Laxman Nepal."
 }
