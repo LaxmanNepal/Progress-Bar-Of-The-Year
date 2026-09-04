@@ -1,4 +1,4 @@
-const CACHE_NAME = 'progress-bar-year-v3';
+const CACHE_NAME = 'progress-bar-year-v4';
 const APP_SHELL = [
   './',
   './index.html',
@@ -37,13 +37,15 @@ self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
 
-  // Always try the network first for navigations so users get the newest app.
+  // Network-first navigation keeps the live tracker fresh while offline fallback remains available.
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request)
         .then(response => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put('./index.html', copy));
+          if (response && response.status === 200) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put('./index.html', copy));
+          }
           return response;
         })
         .catch(() => caches.match('./index.html'))
@@ -51,7 +53,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Cache-first for the app shell and static assets, with runtime caching.
+  // Cache-first for the app shell and static assets, with runtime caching for successful responses.
   event.respondWith(
     caches.match(request).then(cached => {
       if (cached) return cached;
